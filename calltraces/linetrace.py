@@ -47,15 +47,18 @@ def traceInfo(msg, **kwargs) -> None:
     kwargs["stackDepthSpace"] = getStackDepthSpace()
     kwargs["stackDepthNum"] = f"{commonTraceSettings.traceStackDepth:02}"
 
-    if logLevel <= logging.DEBUG and isDebuggerAttached():
+    isDebug = (logLevel <= logging.DEBUG) and isDebuggerAttached()
+
+    if isDebug:
         logLevel = logging.INFO
-        kwargs["color1"] = Fore.CYAN
-        kwargs["color2"] = " DEBUG:"
-        kwargs["color3"] = Style.RESET_ALL
-    else:
-        kwargs["color1"] = Fore.GREEN
-        kwargs["color2"] = Style.RESET_ALL
-        kwargs["color3"] = ""
+
+    for color in commonTraceSettings.all_colors:
+        color_selector = color
+        if isDebug:
+            color_selector += ".debug"
+        kwargs[color] = commonTraceSettings.color_constants.get("info", {}).get(
+            color_selector, Style.RESET_ALL
+        )
 
     commonTraceSettings.logger.log(
         level=logLevel,
@@ -75,15 +78,18 @@ def traceWarning(msg, **kwargs) -> None:
     kwargs["stackDepthSpace"] = getStackDepthSpace()
     kwargs["stackDepthNum"] = f"{commonTraceSettings.traceStackDepth:02}"
 
-    if logLevel <= logging.DEBUG and isDebuggerAttached():
+    isDebug = (logLevel <= logging.DEBUG) and isDebuggerAttached()
+
+    if isDebug:
         logLevel = logging.WARNING
-        kwargs["color1"] = Fore.YELLOW
-        kwargs["color2"] = Fore.CYAN + " DEBUG:"
-        kwargs["color3"] = Style.RESET_ALL
-    else:
-        kwargs["color1"] = Fore.YELLOW
-        kwargs["color2"] = ""
-        kwargs["color3"] = Style.RESET_ALL
+
+    for color in commonTraceSettings.all_colors:
+        color_selector = color
+        if isDebug:
+            color_selector += ".debug"
+        kwargs[color] = commonTraceSettings.color_constants.get("info", {}).get(
+            color_selector, Style.RESET_ALL
+        )
 
     commonTraceSettings.logger.log(
         level=logLevel,
@@ -103,12 +109,18 @@ def traceError(msg, **kwargs) -> None:
     kwargs["stackDepthSpace"] = getStackDepthSpace()
     kwargs["stackDepthNum"] = f"{commonTraceSettings.traceStackDepth:02}"
 
-    if logLevel <= logging.DEBUG and isDebuggerAttached():
+    isDebug = (logLevel <= logging.DEBUG) and isDebuggerAttached()
+
+    if isDebug:
         logLevel = logging.ERROR
 
-    kwargs["color1"] = Fore.RED
-    kwargs["color2"] = ""
-    kwargs["color3"] = Style.RESET_ALL
+    for color in commonTraceSettings.all_colors:
+        color_selector = color
+        if isDebug:
+            color_selector += ".debug"
+        kwargs[color] = commonTraceSettings.color_constants.get("info", {}).get(
+            color_selector, Style.RESET_ALL
+        )
 
     if type(msg) != str:
         msg = str(msg)

@@ -3,8 +3,7 @@ import os
 import pathlib
 import sys
 from io import TextIOWrapper
-
-from colorama import Back, Fore, Style
+from colorama import Fore, Style
 from colorama.ansi import AnsiFore
 
 
@@ -72,6 +71,8 @@ class traceSettings(object):
     ...
     """
 
+    all_colors = ["color1", "color2", "color3"]
+
     FORMAT_CONSOLE = (
         f"%(stackDepthSpace)s"
         + f"%(color1)s"
@@ -88,6 +89,30 @@ class traceSettings(object):
     )
 
     ignoreSymbols = []
+
+    color_constants = {
+        "info": {
+            "color1": Fore.GREEN,
+            "color2": Style.RESET_ALL,
+            "color3": "",
+            "color1.debug": Fore.CYAN,
+            "color2.debug": " DEBUG:",
+            "color3.debug": Style.RESET_ALL,
+        },
+        "warning": {
+            "color1": Fore.YELLOW,
+            "color2": "",
+            "color3": Style.RESET_ALL,
+            "color1.debug": Fore.YELLOW,
+            "color2.debug": Fore.CYAN + " DEBUG:",
+            "color3.debug": Style.RESET_ALL,
+        },
+        "error": {
+            "color1": Fore.RED,
+            "color2": "",
+            "color3": Style.RESET_ALL,
+        },
+    }
 
     def addOutputFileStream(self, outputFileStream: any) -> None:
         outputFullPathUpper = (
