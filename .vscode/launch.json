@@ -8,9 +8,9 @@
             "name": "Python: Current File",
             "type": "python",
             "request": "launch",
-            "program": "${file}",
+            "module": "pytest",
             "console": "integratedTerminal",
-            "justMyCode": false,
+            "justMyCode": true,
             "cwd": "${workspaceFolder}",
             "env": {
                 "PYTHONPATH": "${workspaceFolder}",

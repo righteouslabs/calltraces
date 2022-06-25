@@ -5,8 +5,8 @@ from functools import update_wrapper
 import logging
 
 from colorama import Back, Fore, Style
-import commonTraceSettings
-from linetrace import isDebuggerAttached, traceInfo
+from calltraces import commonTraceSettings
+from calltraces.linetrace import isDebuggerAttached, traceInfo
 
 
 def __functionDecorator__(func: any, debug: bool = False):
@@ -29,7 +29,7 @@ def __functionDecorator__(func: any, debug: bool = False):
 
         output = None
         try:
-            traceInfo(f"{funcFullName} Started Function", logLevel=logLevel)
+            traceInfo(f"{funcFullName} Starting Function", logLevel=logLevel)
             if commonTraceSettings.printArguments:
                 traceInfo(f"{funcFullName} args: {args}", logLevel=logLevel)
                 traceInfo(f"{funcFullName} kwargs: {kwargs}", logLevel=logLevel)
@@ -44,7 +44,7 @@ def __functionDecorator__(func: any, debug: bool = False):
             commonTraceSettings.traceStackDepth = (
                 commonTraceSettings.traceStackDepth - 1
             )
-            traceInfo(f"{funcFullName} Ended Function", logLevel=logLevel)
+            traceInfo(f"{funcFullName} Finished Function", logLevel=logLevel)
             if commonTraceSettings.printArguments:
                 traceInfo(f"{funcFullName} args: {args}", logLevel=logLevel)
                 traceInfo(f"{funcFullName} kwargs: {kwargs}", logLevel=logLevel)

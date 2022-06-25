@@ -1,70 +1,42 @@
-import logging
-import os
-import re
-import tempfile
-
-import pytest
+from tests import (
+    tempLogFile,
+    checkLog,
+    callTracesSampleLogMessage,
+    calltracesTestingInfoLogPrefixRegex,
+    calltracesTestingWarningLogPrefixRegex,
+    calltracesTestingErrorLogPrefixRegex,
+)
 from calltraces.linetrace import traceError, traceInfo, traceWarning
-from calltraces import commonTraceSettings as traceSettings
 
 
-@pytest.fixture
-def tempLogFile() -> tempfile.NamedTemporaryFile:
-    with tempfile.NamedTemporaryFile(
-        suffix=".log", prefix=os.path.basename(__file__)
-    ) as tf:
-        tf_directory = os.path.dirname(tf.name)
-        traceSettings.addOutputFileStream(tf.name)
-        yield tf
+def test_info_line_trace(tempLogFile, checkLog) -> None:
 
-
-def checkLog(
-    regularExpression: str, tempLogFileToCheck: tempfile.NamedTemporaryFile
-) -> None:
-
-    tempLogFileToCheck.seek(0)
-
-    logOutput = tempLogFileToCheck.read().decode(encoding="utf-8").strip()
-
-    logRegex = re.compile(regularExpression)
-
-    assert logRegex.match(logOutput)
-
-
-def test_info_line_trace(tempLogFile) -> None:
-
-    logContent = "A test log message for testing calltraces"
-
-    traceInfo(logContent)
+    traceInfo(callTracesSampleLogMessage)
 
     checkLog(
-        regularExpression=r"\[\d+:INFO:\d\d\] \d\d\d\d-\d\d-\d\d \d\d:\d\d:\d\d,\d\d\d "
-        + logContent,
+        regularExpression=calltracesTestingInfoLogPrefixRegex
+        + callTracesSampleLogMessage,
         tempLogFileToCheck=tempLogFile,
     )
 
 
-def test_warning_line_trace(tempLogFile) -> None:
+def test_warning_line_trace(tempLogFile, checkLog) -> None:
 
-    logContent = "A test log message for testing calltraces"
-
-    traceWarning(logContent)
+    traceWarning(callTracesSampleLogMessage)
 
     checkLog(
-        regularExpression=r"\[\d+:WARNING:\d\d\] \d\d\d\d-\d\d-\d\d \d\d:\d\d:\d\d,\d\d\d "
-        + logContent,
+        regularExpression=calltracesTestingWarningLogPrefixRegex
+        + callTracesSampleLogMessage,
         tempLogFileToCheck=tempLogFile,
     )
 
 
-def test_error_line_trace(tempLogFile) -> None:
+def test_error_line_trace(tempLogFile, checkLog) -> None:
 
-    logContent = "A test log message for testing calltraces"
-
-    traceError(logContent)
+    traceError(callTracesSampleLogMessage)
 
     checkLog(
-        regularExpression=r"\[\d+:ERROR:\d\d\] \d\d\d\d-\d\d-\d\d \d\d:\d\d:\d\d,\d\d\d "
-        + logContent,
+        regularExpression=calltracesTestingErrorLogPrefixRegex
+        + callTracesSampleLogMessage,
         tempLogFileToCheck=tempLogFile,
     )

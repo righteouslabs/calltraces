@@ -1,8 +1,8 @@
 from functools import update_wrapper, wraps
 
-import commonTraceSettings
-from functiontrace import __functionDecorator__
-from linetrace import isDebuggerAttached
+from calltraces import commonTraceSettings
+from calltraces.functiontrace import __functionDecorator__
+from calltraces.linetrace import isDebuggerAttached
 
 
 def __classDecorator__(cls: any, debug: bool = False):
