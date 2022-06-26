@@ -1,13 +1,16 @@
 # This workflow will install Python dependencies, run tests and lint with a variety of Python versions
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
 
-name: Calltraces Python package
+name: Calltraces Python Package
 
 on:
   push:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
+
+env:
+  PYTHON_VERSION_FOR_PUBLISH: "3.10"
 
 jobs:
   build:
@@ -57,14 +60,46 @@ jobs:
 
     - name: Test with pytest 🧪
       run: |
-        pytest
+        python -m pytest
+
+    - name: Set target python package version
+      run: |
+        echo "PACKAGE_SHORT_VERSION::$(date +'%-Y.%-m.%-d')" >> $GITHUB_ENV
+        echo "PACKAGE_LONG_VERSION::$(date +'%-Y.%-m.%-d.%-H%-M')" >> $GITHUB_ENV
 
     - name: Build a binary wheel and a source tarball 🚧
-      run: >-
+      with:
+        python-version: ${{ env.PYTHON_VERSION_FOR_PUBLISH }}
+      run: |
+        # Create temp file to store HTTP data
+        TMPFILE=$(mktemp)
+
+        # Check if Python package with target version is available
+        HTTP_CODE=$(curl \
+          --write-out "%{http_code}\n" \
+          --header 'Accept: application/json' \
+          "https://test.pypi.org/pypi/calltraces/$PACKAGE_SHORT_VERSION/json" \
+          --output $$TMPFILE \
+          --silent \
+        )
+
+        # Remove target file
+        rm $TMPFILE
+
+        # Define target PyPi package version
+        if [[ $HTTP_CODE == 404 ]];
+        then
+          echo "TESTPYPI_PACKAGE_VERSION::$PACKAGE_SHORT_VERSION" >> $GITHUB_ENV;
+        else
+          echo "TESTPYPI_PACKAGE_VERSION::$PACKAGE_LONG_VERSION" >> $GITHUB_ENV
+        fi
+
+        # Build the python package
         python -m build --sdist --wheel --outdir dist/ .
 
     - name: Publish distribution 📦 to Test PyPI
       uses: pypa/gh-action-pypi-publish@master
       with:
+        python-version: ${{ env.PYTHON_VERSION_FOR_PUBLISH }}
         password: ${{ secrets.TEST_PYPI_API_TOKEN }}
         repository_url: https://test.pypi.org/legacy/
