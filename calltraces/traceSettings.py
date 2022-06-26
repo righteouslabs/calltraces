@@ -61,16 +61,6 @@ class traceSettings(object):
     How much to indent a function call. Helpful to measure call-stack depth
     """
 
-    logLevelCutOff = 1
-    """
-    Log level cut-off for tracing.
-    Any log level beyond this amount will not be logged.
-    Level 1 = regular trace
-    Level 2 = debug trace
-    Level 3 = verbose trace
-    ...
-    """
-
     all_colors = ["color1", "color2", "color3"]
 
     FORMAT_CONSOLE = (
