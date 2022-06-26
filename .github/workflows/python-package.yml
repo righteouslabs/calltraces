@@ -40,7 +40,8 @@ jobs:
         # Update Conda packages
         conda env update --file environment.yml --name base
 
-    - uses: pre-commit/action@v3.0.0 ✔️
+    - name: Run pre-commit checks ✔️
+      uses: pre-commit/action@v3.0.0
 
     - name: Lint with flake8 📐
       run: |
