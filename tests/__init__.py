@@ -34,10 +34,8 @@ def checkLog():
 
 callTracesSampleLogMessage = "A sample log message to test calltraces..."
 calltracesTestingTimeRegex = r"\d\d\d\d-\d\d-\d\d \d\d:\d\d:\d\d,\d\d\d "
-calltracesTestingInfoLogPrefixRegex = r"\[\d+:INFO:\d\d\] " + calltracesTestingTimeRegex
+calltracesTestingInfoLogPrefixRegex = r"\[INFO:\d\d\] " + calltracesTestingTimeRegex
 calltracesTestingWarningLogPrefixRegex = (
-    r"\[\d+:WARNING:\d\d\] " + calltracesTestingTimeRegex
+    r"\[WARNING:\d\d\] " + calltracesTestingTimeRegex
 )
-calltracesTestingErrorLogPrefixRegex = (
-    r"\[\d+:ERROR:\d\d\] " + calltracesTestingTimeRegex
-)
+calltracesTestingErrorLogPrefixRegex = r"\[ERROR:\d\d\] " + calltracesTestingTimeRegex
