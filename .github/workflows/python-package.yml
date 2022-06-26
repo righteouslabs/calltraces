@@ -62,37 +62,9 @@ jobs:
       run: |
         python -m pytest
 
-    - name: Set target python package version
-      run: |
-        echo "PACKAGE_SHORT_VERSION::$(date +'%-Y.%-m.%-d')" >> $GITHUB_ENV
-        echo "PACKAGE_LONG_VERSION::$(date +'%-Y.%-m.%-d.%-H%-M')" >> $GITHUB_ENV
-
     - name: Build a binary wheel and a source tarball 🚧
       if: ${{ matrix.python-version == env.PYTHON_VERSION_FOR_PUBLISH }}
       run: |
-        # Create temp file to store HTTP data
-        TMPFILE=$(mktemp)
-
-        # Check if Python package with target version is available
-        HTTP_CODE=$(curl \
-          --write-out "%{http_code}\n" \
-          --header 'Accept: application/json' \
-          "https://test.pypi.org/pypi/calltraces/$PACKAGE_SHORT_VERSION/json" \
-          --output $$TMPFILE \
-          --silent \
-        )
-
-        # Remove target file
-        rm $TMPFILE
-
-        # Define target PyPi package version
-        if [[ $HTTP_CODE == 404 ]];
-        then
-          echo "TESTPYPI_PACKAGE_VERSION::$PACKAGE_SHORT_VERSION" >> $GITHUB_ENV;
-        else
-          echo "TESTPYPI_PACKAGE_VERSION::$PACKAGE_LONG_VERSION" >> $GITHUB_ENV
-        fi
-
         # Build the python package
         python -m build --sdist --wheel --outdir dist/ .
 
