@@ -11,13 +11,13 @@ from calltraces.functiontrace import functiontrace
 from calltraces import commonTraceSettings as traceSettings
 
 
-@functiontrace()
+@functiontrace
 def myBaseFunctionToTrace(a: int, b: int) -> int:
     traceInfo(callTracesSampleLogMessage)
     return a**2 + b**3
 
 
-@functiontrace()
+@functiontrace
 def myWrapperFunctionToTrace(a: int, b: int) -> int:
     return myBaseFunctionToTrace(a=a, b=b)
 

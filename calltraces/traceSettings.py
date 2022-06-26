@@ -76,7 +76,8 @@ class traceSettings(object):
     FORMAT_CONSOLE = (
         f"%(stackDepthSpace)s"
         + f"%(color1)s"
-        + f"[%(process)d:%(levelname)s:%(stackDepthNum)s] %(asctime)s"
+        # + f"[%(process)d:%(levelname)s:%(stackDepthNum)s] %(asctime)s"
+        + f"[%(levelname)s:%(stackDepthNum)s] %(asctime)s"
         + f"%(color2)s "
         + f"%(message)s"
         + f"%(color3)s"
@@ -84,7 +85,8 @@ class traceSettings(object):
 
     FORMAT_FILE = (
         f"%(stackDepthSpace)s"
-        + f"[%(process)d:%(levelname)s:%(stackDepthNum)s] %(asctime)s "
+        # + f"[%(process)d:%(levelname)s:%(stackDepthNum)s] %(asctime)s "
+        + f"[%(levelname)s:%(stackDepthNum)s] %(asctime)s "
         + f"%(message)s"
     )
 

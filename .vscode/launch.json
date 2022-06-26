@@ -8,6 +8,18 @@
             "name": "Python: Current File",
             "type": "python",
             "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "cwd": "${workspaceFolder}",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}",
+            },
+        },
+        {
+            "name": "Python: Python Tests",
+            "type": "python",
+            "request": "launch",
             "module": "pytest",
             "console": "integratedTerminal",
             "justMyCode": true,

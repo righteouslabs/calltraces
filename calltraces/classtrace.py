@@ -20,19 +20,22 @@ def __classDecorator__(cls: any, debug: bool = False):
         if not callable(func):
             continue
 
-        # wrap function with calltraces decorator
+        # wrap function with functiontrace decorator
         wrapped = __functionDecorator__(func=func, debug=debug)
 
-        # Attach the new calltraces function in place of the old function
+        # Attach the new functiontrace function in place of the old function
         setattr(cls, funcname, wrapped)
     return cls
 
 
-def calltraces(debugOnly: bool = False, **kwargs):
+def classtrace(cls: any = None, debugOnly: bool = False):
     """
     Trace all object function calls including input and output
     """
 
     debug = debugOnly and isDebuggerAttached()
 
-    return lambda cls: __classDecorator__(cls=cls, debug=debug)
+    if cls:
+        return __classDecorator__(cls=cls, debug=debug)
+    else:
+        return lambda cls: __classDecorator__(cls=cls, debug=debug)

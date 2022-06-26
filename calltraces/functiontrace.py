@@ -11,7 +11,7 @@ from calltraces.linetrace import isDebuggerAttached, traceInfo
 
 def __functionDecorator__(func: any, debug: bool = False):
 
-    funcFullName = f"{func.__module__}.{func.__name__}"
+    funcFullName = f"{func.__module__}.{func.__qualname__}"
 
     if (
         not commonTraceSettings.enabled
@@ -61,11 +61,14 @@ def __functionDecorator__(func: any, debug: bool = False):
     return __traceWrapper__
 
 
-def functiontrace(debugOnly: bool = False, **kwargs):
+def functiontrace(function: any = None, debugOnly: bool = False):
     """
     Trace function calls including input and output
     """
 
     debug = debugOnly and isDebuggerAttached()
 
-    return lambda func: __functionDecorator__(func=func, debug=debug)
+    if function:
+        return __functionDecorator__(func=function, debug=debug)
+    else:
+        return lambda func: __functionDecorator__(func=func, debug=debug)
