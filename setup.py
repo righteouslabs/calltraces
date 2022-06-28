@@ -20,6 +20,7 @@ here = pathlib.Path(__file__).parent.resolve()
 argv = sys.argv[1:]
 try:
     options, arguments = getopt.getopt(argv, "h:n:", ["host=", "name="])
+    print(options)
 except getopt.GetoptError:
     print(
         "Invalid usage, please use the syntax: setup.py -h <host> -n <name> or setup.py --host <host> --name <name>"
@@ -30,6 +31,15 @@ for opt, arg in options:
         host = arg
     elif opt in ("-n", "--name"):
         project_name = arg
+
+# import argparse
+# parser = argparse.ArgumentParser()
+# parser.add_argument("-ho", "--host", type=str, help="host to connect to, default is test.pypi.org", default="test.pypi.org")
+# parser.add_argument("-n", "--name", type=str, help="project name", default="calltraces")
+# args = parser.parse_args()
+# print(args)
+# host = args.ho
+# project_name = args.n
 
 # Get the version number from the datetime and previous versions
 url = "https://" + host + "/pypi/" + project_name + "/json"
