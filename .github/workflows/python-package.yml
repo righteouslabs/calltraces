@@ -41,6 +41,9 @@ jobs:
         # Update Conda packages
         conda env update --file environment.yml --name base
 
+        # Install Build module
+        pip install build
+
     - name: Run pre-commit checks ✔️
       uses: pre-commit/action@v3.0.0
 
