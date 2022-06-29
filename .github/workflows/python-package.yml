@@ -21,6 +21,6 @@ jobs:
         python-version: ["3.8", "3.9", "3.10"]
 
     steps:
-    - uses: actions/run-python-tests@v1
+    - uses: ./.github/actions/run-python-tests
       with:
         python-version: ${{ matrix.python-version }}
