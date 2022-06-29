@@ -23,6 +23,7 @@ jobs:
     needs: call-python-package
 
     steps:
+    - uses: ./.github/workflows/python-package.yml
 
     - name: Build a binary wheel and a source tarball for test.pypi.org 🚧
       run: |
