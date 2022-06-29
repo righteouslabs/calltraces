@@ -13,12 +13,14 @@ env:
 jobs:
 
   # Re-use python-package.yaml workflow to run checks and test cases
-  call-python-package-in-local-repo:
+  call-python-package:
     uses: ./.github/workflows/python-package.yml
 
   deploy:
 
     runs-on: ubuntu-latest
+
+    needs: call-python-package
 
     steps:
 
