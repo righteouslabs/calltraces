@@ -27,32 +27,6 @@
             "env": {
                 "PYTHONPATH": "${workspaceFolder}",
             },
-        },
-        {
-            "name": "Python: Python Build",
-            "type": "python",
-            "request": "launch",
-            "module": "build",
-            "args": ["--sdist", "--wheel", "--outdir", "dist/", "--config-setting=--host=test.pypi.org", "${workspaceFolder}"],
-            "console": "integratedTerminal",
-            "justMyCode": true,
-            "cwd": "${workspaceFolder}",
-            "env": {
-                "PYTHONPATH": "${workspaceFolder}",
-            },
-        },
-        {
-            "name": "Python: Python Setup",
-            "type": "python",
-            "request": "launch",
-            "program": "setup.py",
-            "args": ["--host=test.pypi.org", "--name=calltraces", "register",],
-            "console": "integratedTerminal",
-            "justMyCode": true,
-            "cwd": "${workspaceFolder}",
-            "env": {
-                "PYTHONPATH": "${workspaceFolder}",
-            },
         }
     ]
 }

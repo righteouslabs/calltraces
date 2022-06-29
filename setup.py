@@ -5,41 +5,18 @@ https://github.com/pypa/sampleproject
 """
 
 # Always prefer setuptools over distutils
-from importlib.metadata import version
-from unicodedata import name
 from setuptools import setup, find_packages
 import pathlib
 import datetime
 import requests
 from requests.structures import CaseInsensitiveDict
-import sys, getopt
+import os
 
 here = pathlib.Path(__file__).parent.resolve()
 
-# Get the host and project name from the command line arguments
-argv = sys.argv[1:]
-try:
-    options, arguments = getopt.getopt(argv, "h:n:", ["host=", "name="])
-    print(options)
-except getopt.GetoptError:
-    print(
-        "Invalid usage, please use the syntax: setup.py -h <host> -n <name> or setup.py --host <host> --name <name>"
-    )
-    sys.exit(2)
-for opt, arg in options:
-    if opt in ("-h", "--host"):
-        host = arg
-    elif opt in ("-n", "--name"):
-        project_name = arg
-
-# import argparse
-# parser = argparse.ArgumentParser()
-# parser.add_argument("-ho", "--host", type=str, help="host to connect to, default is test.pypi.org", default="test.pypi.org")
-# parser.add_argument("-n", "--name", type=str, help="project name", default="calltraces")
-# args = parser.parse_args()
-# print(args)
-# host = args.ho
-# project_name = args.n
+# Defining the host and project name
+host = os.getenv("PYTHON_PACKAGE_HOST", "test.pypi.org")  # Default value set
+project_name = "calltraces"
 
 # Get the version number from the datetime and previous versions
 url = "https://" + host + "/pypi/" + project_name + "/json"

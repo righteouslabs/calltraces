@@ -62,6 +62,10 @@ jobs:
       run: |
         python -m pytest
 
+    - name: Define host name
+      run: |
+        export PYTHON_PACKAGE_HOST=test.pypi.org
+
     - name: Build a binary wheel and a source tarball 🚧
       if: ${{ matrix.python-version == env.PYTHON_VERSION_FOR_PUBLISH }}
       run: |
