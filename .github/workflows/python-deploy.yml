@@ -12,13 +12,15 @@ env:
 
 jobs:
 
+  # Re-use python-package.yaml workflow to run checks and test cases
+  call-python-package-in-local-repo:
+    uses: ./.github/workflows/python-package.yml
+
   deploy:
 
     runs-on: ubuntu-latest
 
     steps:
-    # Re-use python-package.yaml workflow to run checks and test cases
-    - uses: ./.github/workflows/python-package
 
     - name: Build a binary wheel and a source tarball for test.pypi.org 🚧
       run: |
