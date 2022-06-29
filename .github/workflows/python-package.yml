@@ -9,9 +9,6 @@ on:
   pull_request:
     branches: [ "main" ]
 
-env:
-  PYTHON_VERSION_FOR_PUBLISH: "3.10"
-
 jobs:
   build:
 
@@ -61,20 +58,3 @@ jobs:
     - name: Test with pytest 🧪
       run: |
         python -m pytest
-
-    - name: Define host name
-      run: |
-        export PYTHON_PACKAGE_HOST=test.pypi.org
-
-    - name: Build a binary wheel and a source tarball 🚧
-      if: ${{ matrix.python-version == env.PYTHON_VERSION_FOR_PUBLISH }}
-      run: |
-        # Build the python package
-        python -m build --sdist --wheel --outdir dist/ .
-
-    - name: Publish distribution 📦 to Test PyPI
-      uses: pypa/gh-action-pypi-publish@master
-      if: ${{ matrix.python-version == env.PYTHON_VERSION_FOR_PUBLISH }}
-      with:
-        password: ${{ secrets.TEST_PYPI_API_TOKEN }}
-        repository_url: https://test.pypi.org/legacy/
