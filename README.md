@@ -1,8 +1,9 @@
 # Call Traces
 
-A small package for tracing function calls
-
 [![Build Status](https://dev.azure.com/righteous-ai/Python-Repos/_apis/build/status/calltraces?branchName=azure-pipelines)](https://dev.azure.com/righteous-ai/Python-Repos/_build/latest?definitionId=6&branchName=azure-pipelines)
+![Azure DevOps coverage](https://img.shields.io/azure-devops/coverage/righteous-ai/Python-Repos/6?style=for-the-badge)
+
+A small package for tracing function calls
 
 ## Installing ⏬
 
