@@ -2,6 +2,8 @@
 
 A small package for tracing function calls
 
+[![Build Status](https://dev.azure.com/righteous-ai/Python-Repos/_apis/build/status/calltraces?branchName=azure-pipelines)](https://dev.azure.com/righteous-ai/Python-Repos/_build/latest?definitionId=6&branchName=azure-pipelines)
+
 ## Installing ⏬
 
 ```bash
