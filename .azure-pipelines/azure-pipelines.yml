@@ -42,7 +42,7 @@ steps:
 
 - script: |
     # Activate conda environment
-    source activate calltraces
+    conda activate calltraces
 
     # Install pre-commit
     pre-commit install
@@ -53,7 +53,7 @@ steps:
 
 - script: |
     # Activate conda environment
-    source activate calltraces
+    conda activate calltraces
 
     # stop the build if there are Python syntax errors or undefined names
     flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
@@ -63,7 +63,7 @@ steps:
 
 - script: |
     # Activate conda environment
-    source activate calltraces
+    conda activate calltraces
 
     # stop the build if there are Python issues with Black
     python -m black --check .
@@ -71,7 +71,7 @@ steps:
 
 - script: |
     # Activate conda environment
-    source activate calltraces
+    conda activate calltraces
 
     # stop the build if there are Python issues with Black
     pytest --doctest-modules --junitxml=junit/test-results.xml --cov=. --cov-report=xml
