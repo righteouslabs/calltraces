@@ -44,6 +44,9 @@ steps:
     # Activate conda environment
     source activate calltraces
 
+    # Install pre-commit
+    pre-commit install
+
     # Run pre-commit checks
     pre-commit run --all-files
   displayName: ✔️ Run pre-commit checks
