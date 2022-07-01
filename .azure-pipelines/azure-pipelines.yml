@@ -33,21 +33,15 @@ steps:
     # Update Conda
     conda update -n base -c defaults conda
     # Update Conda packages
-    conda create --name calltraces --quiet --file environment.yml --yes --quiet
+    conda env update --name base --quiet --file environment.yml --yes --quiet --verbose --debug
   displayName: Install dependencies ⬇️
 
 - script: |
-    # Activate conda environment
-    source activate calltraces
-
     # Run pre-commit checks
     pre-commit run --all-files
   displayName: Run pre-commit checks ✔️
 
 - script: |
-    # Activate conda environment
-    source activate calltraces
-
     # stop the build if there are Python syntax errors or undefined names
     flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
     # exit-zero treats all errors as warnings
@@ -55,17 +49,11 @@ steps:
   displayName: Lint with flake8 📐
 
 - script: |
-    # Activate conda environment
-    source activate calltraces
-
     # stop the build if there are Python issues with Black
     python -m black --check .
   displayName: Lint with Black 📐
 
 - script: |
-    # Activate conda environment
-    source activate calltraces
-
     # stop the build if there are Python issues with Black
     pytest --doctest-modules --junitxml=junit/test-results.xml --cov=. --cov-report=xml
   displayName: Test with pytest 🧪
