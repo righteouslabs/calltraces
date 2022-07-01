@@ -25,22 +25,22 @@ steps:
     versionSpec: $(python.version)
   displayName: 🐍 Use Python $(python.version)
 
-- powershell: Write-Host "##vso[task.prependpath]$env:CONDA\Scripts"
+- bash: echo "##vso[task.prependpath]$CONDA/bin"
   displayName: ➡️ Add conda to system path
 
   # https://docs.microsoft.com/en-us/azure/devops/pipelines/ecosystems/anaconda
-- script: |
+- bash: |
     # Update Conda
     conda update --name base --channel defaults conda --yes --verbose
   displayName: 🐍 Update Conda
 
   # https://docs.microsoft.com/en-us/azure/devops/pipelines/ecosystems/anaconda
-- script: |
+- bash: |
     # Update Conda packages
     conda env update --file environment.yml --verbose
   displayName: ⬇️ Install dependencies
 
-- script: |
+- bash: |
     # Activate conda environment
     source activate calltraces
 
@@ -51,7 +51,7 @@ steps:
     pre-commit run --all-files
   displayName: ✔️ Run pre-commit checks
 
-- script: |
+- bash: |
     # Activate conda environment
     source activate calltraces
 
@@ -61,7 +61,7 @@ steps:
     flake8 . --count --exit-zero --statistics
   displayName: 📐 Lint with flake8
 
-- script: |
+- bash: |
     # Activate conda environment
     source activate calltraces
 
@@ -69,7 +69,7 @@ steps:
     python -m black --check .
   displayName: 📐 Lint with Black
 
-- script: |
+- bash: |
     # Activate conda environment
     source activate calltraces
 
