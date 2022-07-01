@@ -37,7 +37,7 @@ steps:
   # https://docs.microsoft.com/en-us/azure/devops/pipelines/ecosystems/anaconda
 - script: |
     # Update Conda packages
-    conda create --name calltraces --file environment.yml --yes --verbose --force
+    conda env update --file environment.yml --verbose
   displayName: ⬇️ Install dependencies
 
 - script: |
