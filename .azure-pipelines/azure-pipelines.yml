@@ -8,6 +8,7 @@ trigger:
 
 pool:
   vmImage: ubuntu-latest
+
 strategy:
   matrix:
     Python3.8:
@@ -18,29 +19,53 @@ strategy:
       python.version: '3.10'
 
 steps:
+
 - task: UsePythonVersion@0
   inputs:
-    versionSpec: '$(python.version)'
-  displayName: 'Use Python $(python.version)'
+    versionSpec: $(python.version)
+  displayName: Use Python $(python.version) 🐍
+
+- powershell: Write-Host "##vso[task.prependpath]$env:CONDA\Scripts"
+  displayName: Add conda to system path ➡️
 
 - script: |
-    python -m pip install --upgrade pip
-    pip install -r requirements.txt
-  displayName: 'Install dependencies'
+    # Update Conda
+    conda update -n base -c defaults conda
+    # Update Conda packages
+    conda env update --file environment.yml --name base
+  displayName: Add conda to system path ➡️
 
 - script: |
-    pip install pytest pytest-azurepipelines
-    pip install pytest-cov
+    # Run pre-commit checks
+    pre-commit run --all-files
+  displayName: Run pre-commit checks ✔️
+
+- script: |
+    # stop the build if there are Python syntax errors or undefined names
+    flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+    # exit-zero treats all errors as warnings
+    flake8 . --count --exit-zero --statistics
+  displayName: Lint with flake8 📐
+
+- script: |
+    # stop the build if there are Python issues with Black
+    python -m black --check .
+  displayName: Lint with Black 📐
+
+- script: |
+    # stop the build if there are Python issues with Black
     pytest --doctest-modules --junitxml=junit/test-results.xml --cov=. --cov-report=xml
-  displayName: 'pytest'
+  displayName: Test with pytest 🧪
 
 - task: PublishTestResults@2
   condition: succeededOrFailed()
   inputs:
     testResultsFiles: '**/test-*.xml'
     testRunTitle: 'Publish test results for Python $(python.version)'
+  displayName: Publish test results ⏫
 
 - task: PublishCodeCoverageResults@1
   inputs:
     codeCoverageTool: Cobertura
     summaryFileLocation: '$(System.DefaultWorkingDirectory)/**/coverage.xml'
+  displayName: Publish coverage results ⏫
