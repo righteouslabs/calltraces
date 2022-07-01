@@ -34,7 +34,7 @@ steps:
     conda update -n base -c defaults conda
     # Update Conda packages
     conda create --name calltraces --quiet --file environment.yml --yes --quiet
-  displayName: Add conda to system path ➡️
+  displayName: Install dependencies ⬇️
 
 - script: |
     # Activate conda environment
