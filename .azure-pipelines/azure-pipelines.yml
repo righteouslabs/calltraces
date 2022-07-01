@@ -31,9 +31,9 @@ steps:
   # https://docs.microsoft.com/en-us/azure/devops/pipelines/ecosystems/anaconda
 - script: |
     # Update Conda
-    conda update -n base -c defaults conda
+    conda update --name base --channel defaults conda --yes --verbose
     # Update Conda packages
-    conda env update --name base --quiet --file environment.yml --yes --quiet --verbose --debug
+    conda env update --name base --quiet --file environment.yml --verbose
   displayName: Install dependencies ⬇️
 
 - script: |
