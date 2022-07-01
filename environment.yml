@@ -23,6 +23,9 @@ dependencies:
     # Install base package dependencies
     - --requirement requirements.txt
 
+    # Install build package dependencies
+    - --requirement requirements/requirements.build.txt
+
     # Install pip dependencies for development
     - --requirement requirements/requirements.dev.txt
 

@@ -12,6 +12,8 @@ import requests
 from requests.structures import CaseInsensitiveDict
 import os
 
+import versioneer
+
 here = pathlib.Path(__file__).parent.resolve()
 
 # Defining the host and project name
@@ -50,7 +52,8 @@ long_description = (here / "README.md").read_text(encoding="utf-8")
 
 setup(
     name=project_name,
-    version=version_number,
+    version=versioneer.get_version(),
+    cmdclass=versioneer.get_cmdclass(),
     description="A small package for tracing function calls",
     long_description=long_description,
     long_description_content_type="text/markdown",
