@@ -27,6 +27,19 @@
             "env": {
                 "PYTHONPATH": "${workspaceFolder}",
             },
-        }
+        },
+        {
+            "name": "Python: Python Build",
+            "type": "python",
+            "request": "launch",
+            "module": "build",
+            "args": ["--sdist", "--wheel", "--outdir", "dist/", "--config-setting=--host=test.pypi.org", "${workspaceFolder}"],
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "cwd": "${workspaceFolder}",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}",
+            },
+        },
     ]
 }
