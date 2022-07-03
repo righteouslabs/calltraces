@@ -1,7 +1,7 @@
 [build-system]
 requires = [
     "setuptools>=62.6.0",
-    "colorama",
-    "requests>=2.27.0"
+    "requests>=2.27.0",
+    "versioneer>=0.22"
 ]
 build-backend = "setuptools.build_meta"

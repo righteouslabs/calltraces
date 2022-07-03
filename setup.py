@@ -66,7 +66,7 @@ setup(
         "Operating System :: OS Independent",
     ],
     package_dir={"": project_name},
-    packages=find_packages(where=project_name),
+    packages=find_packages(where="."),
     python_requires=">=3.9",
     project_urls={
         "Bug Reports": "https://github.com/righteouslabs/calltraces/issues",
