@@ -99,7 +99,7 @@ stages:
 
 - stage: approval
   dependsOn: tests
-  condition: and(succeeded(), eq(variables['Build.Reason'], 'tags'))
+  # condition: and(succeeded(), eq(variables['Build.Reason'], 'tags'))
   jobs:
   - job: waitForValidation
     displayName: Wait for external validation
@@ -116,7 +116,7 @@ stages:
 
 - stage: deploy
   dependsOn: approval
-  condition: and(succeeded(), eq(variables['Build.Reason'], 'tags'))
+  # condition: and(succeeded(), eq(variables['Build.Reason'], 'tags'))
   pool:
     vmImage: ubuntu-latest
   jobs:
@@ -141,4 +141,4 @@ stages:
     - task: PythonScript@0
       inputs:
         scriptSource: 'inline'
-        script: 'python -m twine upload -r "calltraces" dist/*.whl'
+        script: python -m twine upload --repository testpypi dist/*
