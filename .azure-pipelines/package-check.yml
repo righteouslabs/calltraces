@@ -4,24 +4,27 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/python
 
 trigger:
-- main
-
-pool:
-  vmImage: ubuntu-latest
-
-strategy:
-  matrix:
-    Python3.8:
-      python.version: '3.8'
-    Python3.9:
-      python.version: '3.9'
-    Python3.10:
-      python.version: '3.10'
+  branches:
+    include:
+      - main
+  tags:
+    include:
+      - v*
 
 stages:
 - stage: tests
-  Jobs:
-  - job: package-check
+  pool:
+    vmImage: ubuntu-latest
+  jobs:
+  - job: package_check
+    strategy:
+      matrix:
+        Python3.8:
+          python.version: '3.8'
+        Python3.9:
+          python.version: '3.9'
+        Python3.10:
+          python.version: '3.10'
     steps:
 
     - task: UsePythonVersion@0
@@ -96,7 +99,7 @@ stages:
 
 - stage: approval
   dependsOn: tests
-  condition: succeeded()
+  condition: and(succeeded(), eq(variables['Build.Reason'], 'tags'))
   jobs:
   - job: waitForValidation
     displayName: Wait for external validation  
@@ -113,18 +116,29 @@ stages:
 
 - stage: deploy
   dependsOn: approval
-  condition: succeeded()
+  condition: and(succeeded(), eq(variables['Build.Reason'], 'tags'))
+  pool:
+    vmImage: ubuntu-latest
   jobs:
-  - job: package-deploy
+  - job: package_deploy
     steps:
-    - script: |
-         pip install wheel
-         pip install twine
-    - script: |
-         python setup.py bdist_wheel
+    - task: PythonScript@0
+      inputs:
+        scriptSource: 'inline'
+        script: |
+          pip install wheel
+          pip install twine
+
+    - task: PythonScript@0
+      inputs:
+        scriptSource: 'inline'
+        script: 'python setup.py bdist_wheel'
+
     - task: TwineAuthenticate@1
-      displayName: Twine Authenticate
-      inputs:
-        pythonUploadServiceConnection: 'test.pypi.org'
-    - script: |
-         python -m twine upload -r "calltraces" dist/*.whl
+      inputs:
+        pythonUploadServiceConnection: 'test.pypi.org'
+
+    - task: PythonScript@0
+      inputs:
+        scriptSource: 'inline'
+        script: 'python -m twine upload -r "calltraces" dist/*.whl'
