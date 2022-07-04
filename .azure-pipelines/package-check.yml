@@ -9,7 +9,7 @@ trigger:
       - main
   tags:
     include:
-      - v*
+      - v2
 
 stages:
 - stage: tests
