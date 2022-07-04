@@ -1,4 +1,4 @@
-# Python package
+ # Python package
 # Create and test a Python package on multiple Python versions.
 # Add steps that analyze code, save the dist with the build record, publish to a PyPI-compatible index, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/python
@@ -18,74 +18,113 @@ strategy:
     Python3.10:
       python.version: '3.10'
 
-steps:
+stages:
+- stage: tests
+  Jobs:
+  - job: package-check
+    steps:
 
-- task: UsePythonVersion@0
-  inputs:
-    versionSpec: $(python.version)
-  displayName: 🐍 Use Python $(python.version)
+    - task: UsePythonVersion@0
+      inputs:
+        versionSpec: $(python.version)
+      displayName: 🐍 Use Python $(python.version)
 
-- bash: echo "##vso[task.prependpath]$CONDA/bin"
-  displayName: ➡️ Add conda to system path
+    - bash: echo "##vso[task.prependpath]$CONDA/bin"
+      displayName: ➡️ Add conda to system path
 
-  # https://docs.microsoft.com/en-us/azure/devops/pipelines/ecosystems/anaconda
-- bash: |
-    # Update Conda
-    conda update --name base --channel defaults conda --yes --verbose
-  displayName: 🐍 Update Conda
+      # https://docs.microsoft.com/en-us/azure/devops/pipelines/ecosystems/anaconda
+    - bash: |
+        # Update Conda
+        conda update --name base --channel defaults conda --yes --verbose
+      displayName: 🐍 Update Conda
 
-  # https://docs.microsoft.com/en-us/azure/devops/pipelines/ecosystems/anaconda
-- bash: |
-    # Update Conda packages
-    conda env update --file environment.yml --verbose
-  displayName: ⬇️ Install dependencies
+      # https://docs.microsoft.com/en-us/azure/devops/pipelines/ecosystems/anaconda
+    - bash: |
+        # Update Conda packages
+        conda env update --file environment.yml --verbose
+      displayName: ⬇️ Install dependencies
 
-- bash: |
-    # Activate conda environment
-    source activate calltraces
+    - bash: |
+        # Activate conda environment
+        source activate calltraces
 
-    # Install pre-commit
-    pre-commit install
+        # Install pre-commit
+        pre-commit install
 
-    # Run pre-commit checks
-    pre-commit run --all-files
-  displayName: ✔️ Run pre-commit checks
+        # Run pre-commit checks
+        pre-commit run --all-files
+      displayName: ✔️ Run pre-commit checks
 
-- bash: |
-    # Activate conda environment
-    source activate calltraces
+    - bash: |
+        # Activate conda environment
+        source activate calltraces
 
-    # stop the build if there are Python syntax errors or undefined names
-    flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
-    # exit-zero treats all errors as warnings
-    flake8 . --count --exit-zero --statistics
-  displayName: 📐 Lint with flake8
+        # stop the build if there are Python syntax errors or undefined names
+        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+        # exit-zero treats all errors as warnings
+        flake8 . --count --exit-zero --statistics
+      displayName: 📐 Lint with flake8
 
-- bash: |
-    # Activate conda environment
-    source activate calltraces
+    - bash: |
+        # Activate conda environment
+        source activate calltraces
 
-    # stop the build if there are Python issues with Black
-    python -m black --check .
-  displayName: 📐 Lint with Black
+        # stop the build if there are Python issues with Black
+        python -m black --check .
+      displayName: 📐 Lint with Black
 
-- bash: |
-    # Activate conda environment
-    source activate calltraces
+    - bash: |
+        # Activate conda environment
+        source activate calltraces
 
-    # stop the build if there are Python issues with Black
-    pytest --doctest-modules --junitxml=junit/test-results.xml --cov=. --cov-report=xml
-  displayName: 🧪 Test with pytest
+        # stop the build if there are Python issues with Black
+        pytest --doctest-modules --junitxml=junit/test-results.xml --cov=. --cov-report=xml
+      displayName: 🧪 Test with pytest
 
-- task: PublishTestResults@2
-  condition: succeededOrFailed()
-  inputs:
-    testResultsFiles: '**/test-*.xml'
-    testRunTitle: 'Publish test results for Python $(python.version)'
-  displayName: ⏫ Publish test results
+    - task: PublishTestResults@2
+      condition: succeededOrFailed()
+      inputs:
+        testResultsFiles: '**/test-*.xml'
+        testRunTitle: 'Publish test results for Python $(python.version)'
+      displayName: ⏫ Publish test results
 
-- task: PublishCodeCoverageResults@1
-  inputs:
-    codeCoverageTool: Cobertura
-    summaryFileLocation: '$(System.DefaultWorkingDirectory)/**/coverage.xml'
-  displayName: ⏫ Publish coverage results
+    - task: PublishCodeCoverageResults@1
+      inputs:
+        codeCoverageTool: Cobertura
+        summaryFileLocation: '$(System.DefaultWorkingDirectory)/**/coverage.xml'
+      displayName: ⏫ Publish coverage results
+
+- stage: approval
+  dependsOn: tests
+  condition: succeeded()
+  jobs:
+  - job: waitForValidation
+    displayName: Wait for external validation  
+    pool: server
+    timeoutInMinutes: 4320 # job times out in 3 days
+    steps:
+    - task: ManualValidation@0
+      timeoutInMinutes: 1440 # task times out in 1 day
+      inputs:
+          notifyUsers: |
+              rohit.mistry@righteous.ai
+          instructions: 'Please validate the build configuration and resume'
+          onTimeout: 'resume'
+
+- stage: deploy
+  dependsOn: approval
+  condition: succeeded()
+  jobs:
+  - job: package-deploy
+    steps:
+    - script: |
+         pip install wheel
+         pip install twine
+    - script: |
+         python setup.py bdist_wheel
+    - task: TwineAuthenticate@1
+      displayName: Twine Authenticate
+      inputs:
+        pythonUploadServiceConnection: 'test.pypi.org'
+    - script: |
+         python -m twine upload -r "calltraces" dist/*.whl
