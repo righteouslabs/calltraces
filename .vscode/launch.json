@@ -41,5 +41,18 @@
                 "PYTHONPATH": "${workspaceFolder}",
             },
         },
+        {
+            "name": "Python: Python setup.py build",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/setup.py",
+            "args": ["build"],
+            "console": "integratedTerminal",
+            "justMyCode": false,
+            "cwd": "${workspaceFolder}",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}",
+            },
+        },
     ]
 }
