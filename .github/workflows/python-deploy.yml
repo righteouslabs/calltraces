@@ -5,16 +5,27 @@ name: Calltraces Python Package Deploy
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "*" ]
+  pull_request:
+    branches: [ "*" ]
+  workflow_call:
+  tags:
+  create:
+  release:
 
 env:
   PYTHON_VERSION_FOR_PUBLISH: "3.10"
 
 jobs:
 
-  deploy:
+  build:
 
     runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.8", "3.9", "3.10"]
 
     steps:
     - uses: actions/checkout@v3
@@ -22,6 +33,21 @@ jobs:
     - uses: ./.github/actions/run-python-tests
       with:
         python-version: ${{ matrix.python-version }}
+
+  deploy:
+
+    needs: build
+
+    runs-on: ubuntu-latest
+
+    if: ${{ github.event_name == 'release' && github.event.action == 'created' }}
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - uses: ./.github/actions/run-python-tests
+      with:
+        python-version: ${{ env.PYTHON_VERSION_FOR_PUBLISH }}
 
     - name: Build a binary wheel and a source tarball for test.pypi.org 🚧
       run: |
