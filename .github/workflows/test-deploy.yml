@@ -49,11 +49,6 @@ jobs:
       with:
         python-version: ${{ env.PYTHON_VERSION_FOR_PUBLISH }}
 
-    - name: ☂ Code Coverage
-      uses: codecov/codecov-action@v3.1.0
-      with:
-        token: ${{ secrets.CODECOV_IO_TOKEN }}
-
     - name: 🚧 Build a binary wheel and a source tarball
       run: |
         python -m build --sdist --wheel --outdir dist/ .

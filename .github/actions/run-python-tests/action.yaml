@@ -52,3 +52,6 @@ runs:
     shell: bash
     run: |
       python -m pytest
+
+  - name: ☂ Upload Code Coverage
+    uses: codecov/codecov-action@v3.1.0
