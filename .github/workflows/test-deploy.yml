@@ -44,21 +44,27 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    - uses: ./.github/actions/run-python-tests
+    - name: ✔ Run tests
+      uses: ./.github/actions/run-python-tests
       with:
         python-version: ${{ env.PYTHON_VERSION_FOR_PUBLISH }}
 
-    - name: Build a binary wheel and a source tarball for test.pypi.org 🚧
+    - name: ☂ Code Coverage
+      uses: codecov/codecov-action@v3.1.0
+      with:
+        token: ${{ secrets.CODECOV_IO_TOKEN }}
+
+    - name: 🚧 Build a binary wheel and a source tarball
       run: |
         python -m build --sdist --wheel --outdir dist/ .
 
-    - name: Publish distribution 📦 to Test.PyPI.org
+    - name: 📦 Publish distribution to Test.PyPI.org
       uses: pypa/gh-action-pypi-publish@master
       with:
         password: ${{ secrets.TEST_PYPI_API_TOKEN }}
         repository_url: https://test.pypi.org/legacy/
 
-    - name: Publish distribution 📦 to PyPI.org
+    - name: 📦 Publish distribution to PyPI.org
       uses: pypa/gh-action-pypi-publish@master
       with:
         password: ${{ secrets.PYPI_API_TOKEN }}
