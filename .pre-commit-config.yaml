@@ -18,13 +18,14 @@ repos:
     hooks:
       - id: black
 
-  - repo: local
-    hooks:
-      - id: pytest-check
-        name: pytest-check
-        stages: [manual]
-        types: [python]
-        entry: pytest
-        language: system
-        pass_filenames: false
-        always_run: true
+  # # Run pytest runs locally
+  # - repo: local
+  #   hooks:
+  #     - id: pytest-check
+  #       name: pytest-check
+  #       stages: [manual]
+  #       types: [python]
+  #       entry: pytest
+  #       language: system
+  #       pass_filenames: false
+  #       always_run: true
