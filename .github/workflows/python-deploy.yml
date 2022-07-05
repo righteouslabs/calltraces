@@ -17,7 +17,7 @@ env:
 
 jobs:
 
-  build:
+  test:
 
     runs-on: ubuntu-latest
 
@@ -35,7 +35,7 @@ jobs:
 
   deploy:
 
-    needs: build
+    needs: test
 
     runs-on: ubuntu-latest
 
@@ -51,8 +51,7 @@ jobs:
     - name: Build a binary wheel and a source tarball for test.pypi.org 🚧
       run: |
         # Build the python package
-        export PYTHON_PACKAGE_HOST=test.pypi.org
-        python -m build --sdist --wheel --outdir dist/ .
+        python setup.py sdist
 
     - name: Publish distribution 📦 to Test.PyPI.org
       uses: pypa/gh-action-pypi-publish@master
@@ -63,8 +62,7 @@ jobs:
     - name: Build a binary wheel and a source tarball for pypi.org 🚧
       run: |
         # Build the python package
-        export PYTHON_PACKAGE_HOST=pypi.org
-        python -m build --sdist --wheel --outdir dist/ .
+        python setup.py sdist
 
     - name: Publish distribution 📦 to PyPI.org
       uses: pypa/gh-action-pypi-publish@master
