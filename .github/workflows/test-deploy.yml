@@ -9,8 +9,8 @@ on:
   pull_request:
     branches: [ "*" ]
   workflow_call:
-  create:
   release:
+    types: [released]
 
 env:
   PYTHON_VERSION_FOR_PUBLISH: "3.10"
@@ -39,7 +39,7 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    if: ${{ github.event_name == 'release' && github.event.action == 'created' }}
+    if: ${{ github.event_name == 'release' && github.event.action == 'released' }}
 
     steps:
     - uses: actions/checkout@v3
