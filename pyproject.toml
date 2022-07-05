@@ -1,11 +1,47 @@
+[project]
+name = "calltraces"
+author = "Righteous AI Inc."
+author_email = "admin@righteous.ai"
+description = "A small package for tracing function calls"
+keywords = "calltraces, call, traces, stack, frames"
+readme = "README.md"
+license = { file="LICENSE" }
+requires-python = ">=3.8"
+dependencies = [
+    "colorama>=0.4.4",
+]
+classifiers = [
+    # How mature is this project? Common values are
+    #   3 - Alpha
+    #   4 - Beta
+    #   5 - Production/Stable
+    "Development Status :: 5 - Stable",
+    # Indicate who your project is intended for
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    # Specify the Python versions you support here. In particular, ensure
+    # that you indicate you support Python 3. These classifiers are *not*
+    # checked by 'pip install'. See instead 'python_requires' below.
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3 :: Only",
+]
+
+[project.urls]
+"Source Code" = "https://github.com/righteouslabs/calltraces"
+"Bug Tracker" = "https://github.com/righteouslabs/calltraces/issues"
+
 [build-system]
 requires = [
     "setuptools>=62.6.0",
     "requests>=2.27.0",
     "wheel"
 ]
-
 build-backend = "setuptools.build_meta"
+
 [tool.black]
 target-version = ['py38', 'py39']
 force-exclude = '''
@@ -24,3 +60,46 @@ force-exclude = '''
   | dist
 )
 '''
+
+[tool.setuptools_scm]
+
+[tool.pytest.ini_options]
+# Documentation:
+# - https://docs.pytest.org/en/stable/goodpractices.html
+# - https://docs.pytest.org/en/stable/reference.html#ini-options-ref
+# - https://docs.pytest.org/en/stable/pythonpath.html
+# - https://docs.pytest.org/en/stable/customize.html#config-file-formats
+
+minversion = "6.0"
+addopts = [
+    "--import-mode=prepend",
+    "--cov-config=coverage.ini",
+    "--cov-report=html",
+    "--cov-report=xml",
+    "--cov-report=annotate",
+    "--cov=.",
+    "--capture=tee-sys",
+    "--verbose",
+]
+
+norecursedirs = [
+    "htmlcov",
+    "logs",
+    "docs",
+    ".vscode",
+]
+
+testpaths = [
+    "tests",
+]
+
+console_output_style = "progress"
+
+
+log_level = "DEBUG"
+log_cli = "True"
+log_format = "%(asctime)s %(levelname)s %(message)s"
+log_date_format = "%Y-%m-%d %H:%M:%S"
+
+junit_logging = "system-out"
+junit_family = "xunit2"

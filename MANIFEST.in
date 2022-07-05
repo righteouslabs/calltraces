@@ -1,8 +1,5 @@
 include RELEASE.md
 
-include versioneer.py
-include calltraces/_version.py
-
 graft doc
 prune doc/build
 
