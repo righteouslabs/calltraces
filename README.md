@@ -1,7 +1,7 @@
 # Call Traces
 
-[![Build Status](https://dev.azure.com/righteous-ai/Python-Repos/_apis/build/status/calltraces?branchName=azure-pipelines)](https://dev.azure.com/righteous-ai/Python-Repos/_build/latest?definitionId=6&branchName=azure-pipelines)
-![Azure DevOps coverage](https://img.shields.io/azure-devops/coverage/righteous-ai/Python-Repos/6)
+[![Calltraces Python Package Deploy](https://github.com/righteouslabs/calltraces/actions/workflows/test-deploy.yml/badge.svg?branch=main)](https://github.com/righteouslabs/calltraces/actions/workflows/test-deploy.yml)
+[![codecov](https://codecov.io/gh/righteouslabs/calltraces/branch/main/graph/badge.svg?token=Y33PFLH2HS)](https://codecov.io/gh/righteouslabs/calltraces)
 ![PyPI](https://img.shields.io/pypi/v/calltraces)
 ![Azure DevOps tests](https://img.shields.io/azure-devops/tests/righteous-ai/Python-Repos/6?compact_message)
 ![PyPI - Downloads](https://img.shields.io/pypi/dd/calltraces)
