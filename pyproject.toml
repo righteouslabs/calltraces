@@ -1,15 +1,31 @@
+[build-system]
+requires = [
+    "setuptools>=62.6.0",
+    "setuptools_scm[toml]>=7.0.4",
+    "wheel"
+]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "calltraces"
-author = "Righteous AI Inc."
-author_email = "admin@righteous.ai"
 description = "A small package for tracing function calls"
-keywords = "calltraces, call, traces, stack, frames"
+keywords = [
+    "calltraces",
+    "call",
+    "traces",
+    "stack",
+    "frames"
+]
 readme = "README.md"
 license = { file="LICENSE" }
 requires-python = ">=3.8"
-dependencies = [
-    "colorama>=0.4.4",
+authors = [
+    { name = "Righteous AI Inc.", email = "admin@righteous.ai" }
 ]
+dependencies = [
+    "colorama>=0.4.4"
+]
+dynamic = ["version"]
 classifiers = [
     # How mature is this project? Common values are
     #   3 - Alpha
@@ -30,17 +46,14 @@ classifiers = [
     "Programming Language :: Python :: 3 :: Only",
 ]
 
-[project.urls]
+[urls]
 "Source Code" = "https://github.com/righteouslabs/calltraces"
 "Bug Tracker" = "https://github.com/righteouslabs/calltraces/issues"
 
-[build-system]
-requires = [
-    "setuptools>=62.6.0",
-    "requests>=2.27.0",
-    "wheel"
-]
-build-backend = "setuptools.build_meta"
+[tool.setuptools_scm]
+
+[tool.setuptools]
+packages = ["calltraces"]
 
 [tool.black]
 target-version = ['py38', 'py39']
@@ -60,8 +73,6 @@ force-exclude = '''
   | dist
 )
 '''
-
-[tool.setuptools_scm]
 
 [tool.pytest.ini_options]
 # Documentation:

@@ -33,9 +33,9 @@
             "type": "python",
             "request": "launch",
             "module": "build",
-            "args": ["--sdist", "--wheel", "--outdir", "dist/", "--config-setting=--host=test.pypi.org", "${workspaceFolder}"],
+            "args": ["--sdist", "--wheel", "--outdir", "dist/", "${workspaceFolder}"],
             "console": "integratedTerminal",
-            "justMyCode": true,
+            "justMyCode": false,
             "cwd": "${workspaceFolder}",
             "env": {
                 "PYTHONPATH": "${workspaceFolder}",
