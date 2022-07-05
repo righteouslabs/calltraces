@@ -1,6 +1,7 @@
 [build-system]
 requires = [
     "setuptools>=62.6.0",
+    "requests>=2.27.0",
     "wheel"
 ]
 
@@ -21,8 +22,5 @@ force-exclude = '''
   | buck-out
   | build
   | dist
-  | setup.py
-  | versioneer.py
-  | calltraces/_version.py
 )
 '''

@@ -51,7 +51,8 @@ jobs:
     - name: Build a binary wheel and a source tarball for test.pypi.org 🚧
       run: |
         # Build the python package
-        python setup.py sdist
+        export PYTHON_PACKAGE_HOST=test.pypi.org
+        python -m build --sdist --wheel --outdir dist/ .
 
     - name: Publish distribution 📦 to Test.PyPI.org
       uses: pypa/gh-action-pypi-publish@master
@@ -62,7 +63,8 @@ jobs:
     - name: Build a binary wheel and a source tarball for pypi.org 🚧
       run: |
         # Build the python package
-        python setup.py sdist
+        export PYTHON_PACKAGE_HOST=pypi.org
+        python -m build --sdist --wheel --outdir dist/ .
 
     - name: Publish distribution 📦 to PyPI.org
       uses: pypa/gh-action-pypi-publish@master
