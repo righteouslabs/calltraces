@@ -1,6 +1,6 @@
 # Call Traces
 
-[![Calltraces Python Package Deploy](https://github.com/righteouslabs/calltraces/actions/workflows/test-deploy.yml/badge.svg?branch=main)](https://github.com/righteouslabs/calltraces/actions/workflows/test-deploy.yml)
+[![Package Tests](https://github.com/righteouslabs/calltraces/actions/workflows/test-deploy.yml/badge.svg?branch=main)](https://github.com/righteouslabs/calltraces/actions/workflows/test-deploy.yml)
 [![codecov](https://codecov.io/gh/righteouslabs/calltraces/branch/main/graph/badge.svg?token=Y33PFLH2HS)](https://codecov.io/gh/righteouslabs/calltraces)
 ![PyPI](https://img.shields.io/pypi/v/calltraces)
 ![Azure DevOps tests](https://img.shields.io/azure-devops/tests/righteous-ai/Python-Repos/6?compact_message)
