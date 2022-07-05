@@ -1,8 +1,5 @@
 # Development Dependencies
 pip>=22.1.2
-build>=0.8.0
 flake8>=4.0.1
 black>=22.3.0
 Pylint>=2.14.1
-pre-commit>=2.19.0
-requests>=2.27.0
