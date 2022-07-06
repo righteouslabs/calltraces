@@ -6,17 +6,17 @@
 ![Azure DevOps tests](https://img.shields.io/azure-devops/tests/righteous-ai/Python-Repos/6?compact_message)
 ![PyPI - Downloads](https://img.shields.io/pypi/dd/calltraces)
 ![PyPI - Format](https://img.shields.io/pypi/format/calltraces)
-![PyPI - Status](https://img.shields.io/pypi/status/calltraces)
 ![GitHub](https://img.shields.io/github/license/righteouslabs/calltraces)
 ![GitHub language count](https://img.shields.io/github/languages/count/righteouslabs/calltraces)
 ![GitHub top language](https://img.shields.io/github/languages/top/righteouslabs/calltraces)
-![CodeFactor Grade](https://img.shields.io/codefactor/grade/github/righteouslabs/calltraces)
 ![Snyk Vulnerabilities for GitHub Repo](https://img.shields.io/snyk/vulnerabilities/github/righteouslabs/calltraces)
-![GitHub Pipenv locked dependency version](https://img.shields.io/github/pipenv/locked/dependency-version/righteouslabs/calltraces/colorama)
-![Libraries.io dependency status for GitHub repo](https://img.shields.io/librariesio/github/righteouslabs/calltraces)
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/righteouslabs/calltraces)
-![GitHub Pipenv locked Python version](https://img.shields.io/github/pipenv/locked/python-version/righteouslabs/calltraces)
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/calltraces)
+<!-- ![CodeFactor Grade](https://img.shields.io/codefactor/grade/github/righteouslabs/calltraces) -->
+<!-- ![GitHub Pipenv locked dependency version](https://img.shields.io/github/pipenv/locked/dependency-version/righteouslabs/calltraces/colorama) -->
+<!-- ![Libraries.io dependency status for GitHub repo](https://img.shields.io/librariesio/github/righteouslabs/calltraces) -->
+<!-- ![GitHub Pipenv locked Python version](https://img.shields.io/github/pipenv/locked/python-version/righteouslabs/calltraces) -->
+<!-- ![PyPI - Status](https://img.shields.io/pypi/status/calltraces) -->
 
 A small package for tracing function calls
 
